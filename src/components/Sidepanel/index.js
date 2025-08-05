@@ -1,5 +1,4 @@
 import React from 'react'
-import { useViewport } from '@talkdesk/cobalt-react-viewport-provider'
 import Header from './Header'
 import HiddenElement from './HiddenElement'
 import PanelComponent from './PanelComponent'
@@ -73,7 +72,23 @@ const Sidepanel = ({
   currentView = 'dashboard',
   onItemClick
 }) => {
-  const viewport = useViewport()
+  // Simple viewport detection
+  const [viewport, setViewport] = React.useState('medium');
+  
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setViewport('small');
+      } else {
+        setViewport('medium');
+      }
+    };
+    
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const isSmallViewport = viewport === 'small'
 
   // Convert your existing menu structure to a flat list

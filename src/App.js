@@ -143,13 +143,7 @@ function AppContent() {
     setSubView(page);
   }, [iframeReady, generateIframeUrl]);
 
-  // Helper function to update iframe URL (fallback method)
-  const updateIframeUrl = useCallback((page) => {
-    if (token && iframeRef.current) {
-      const newSrc = generateIframeUrl(page);
-      iframeRef.current.src = newSrc;
-    }
-  }, [token, generateIframeUrl]);
+
 
   useEffect(() => {
     if (token) {
@@ -203,7 +197,7 @@ function AppContent() {
       setIframeSrc('');
       setIframeReady(false);
     }
-  }, [token, generateIframeUrl, preloadIframeUrls]); // Removed subView from dependencies to prevent reloads
+  }, [token, generateIframeUrl, preloadIframeUrls, subView]); // Added subView back to dependencies
 
   // Sidepanel event handlers
   const handleToggle = useCallback(() => {
